@@ -1,7 +1,7 @@
 ---
-title       : 
-subtitle    : 
-author      : 
+title       : Predicting the average height of children from parents' average height
+subtitle    : A shiny app using Galton's data to predict height.
+author      : p-mohan
 job         : 
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
@@ -11,16 +11,44 @@ mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
 
-## Read-And-Delete
+## The dataset
 
-1. Edit YAML front matter
-2. Write using R Markdown
-3. Use an empty line followed by three dashes to separate slides!
+- The dataset available in HistData R package is based on a famous 1885 study of Francis Galton exploring the relationship between the heights of adult children and the heights of their parents. Each case is an adult child.
+- The dataset contains 928 observations of the average parents' height and their child's height. 
 
 --- .class #id 
 
-## Slide 2
+## Exploring the data
 
+- The pairs plot shows a linear relationship between the parents' and the child's height.
+- We should be able to use linear regression to predict a child's height given the parents' average height using this data.
 
+```{r,echo=FALSE,fig.align='center'}
+library(HistData)
+data(Galton)
+pairs(Galton, panel=panel.smooth)
+```
 
+--- .class #id 
 
+## Developing a model
+
+- Using the train function available in the R caret package we will use Generalized Linear Model to come up with a model with the best fit.
+- The function also allows us to estimate model performance on the training set.
+
+```{r, eval=FALSE}
+ train(child ~ parent, method="glm", data=Galton)
+```
+
+--- .class #id 
+
+## The shiny application
+
+- The application allows you to enter your own set of parents' height and once you hit submit, it will show you the predicted child's height.
+- As seen in the earlier diagram, to get the correct height you must enter values between 62 and 74 inches. Outside this boundary, the model will be error prone due to extrapolation.
+- Another phenomena you can observe is that when you enter heights at either end of the spectrum, the child's height could be see to regress to the mean.
+- The next slide will present you with the application. Alternatively, it is available at: https://p-mohan.shinyapps.io/shiny_app
+
+--- .class #id 
+
+<iframe src="https://p-mohan.shinyapps.io/shiny_app"></iframe>
