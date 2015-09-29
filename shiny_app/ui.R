@@ -1,24 +1,15 @@
 library(shiny)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-    
+shinyUI( pageWithSidebar (
     # Application title
-    titlePanel("Hello Shiny!"),
+    headerPanel ("Predict a child's height given parents' average height"),
     
-    # Sidebar with a slider input for the number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-        
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
-        )
+    sidebarPanel (
+        numericInput('parent', 'Parents\'average height (in)', 68, min = 62, max= 74, step = 1),
+        submitButton('Submit')
+    ),
+    mainPanel (
+        h4 ('Child\'s predicted height:'),
+        textOutput("prediction")
     )
 ))
